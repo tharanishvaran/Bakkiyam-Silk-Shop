@@ -1,0 +1,13 @@
+{
+  "name": "bakkiyam-backend",
+  "version": "1.0.0",
+  "description": "Bakkiyam Pattu Center Backend API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [],
+  "author": "Bakkiyam Pattu Center",
+  "license": "ISC"
+}
