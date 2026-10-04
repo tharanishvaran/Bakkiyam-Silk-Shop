@@ -1,0 +1,10 @@
+{
+  "name": "bakkiyam-silk-shop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bakkiyam Pattu Center - Full Stack Silk Saree Shop",
+  "scripts": {
+    "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
+    "start": "cd backend && node server.js"
+  }
+}
