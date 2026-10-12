@@ -15,6 +15,7 @@ import {
   Phone
 } from 'lucide-react';
 import { useSettings } from '../../context/SettingsContext';
+import { formatTelLink, formatPhoneDisplay, formatWhatsAppNumber } from '../../utils/phone';
 
 const services = [
   {
@@ -102,9 +103,9 @@ const whyUs = [
 
 export default function ServicesSection() {
   const { settings } = useSettings();
-  const phone1 = settings.contact_phone_1 || '9159808720';
+  const phone1 = settings.contact_phone_1 || '+91 91598 08720';
   const contactName = settings.contact_phone_1_name || 'V. Kannan';
-  const waNum = (settings.whatsapp_number || '919159808720').replace(/\D/g, '');
+  const waNum = formatWhatsAppNumber(settings.whatsapp_number);
 
   return (
     <>
@@ -336,13 +337,13 @@ export default function ServicesSection() {
             </div>
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
               <a
-                href={`tel:+91${phone1.replace(/\D/g, '')}`}
+                href={formatTelLink(phone1)}
                 className="btn btn-primary"
                 style={{ fontSize: '0.82rem', padding: '0.7rem 1.4rem' }}
                 title={`Call ${contactName}`}
               >
                 <Phone size={15} />
-                <span>Call {contactName} (+91 {phone1})</span>
+                <span>Call {contactName} ({formatPhoneDisplay(phone1)})</span>
               </a>
               <a
                 href={`https://wa.me/${waNum}?text=${encodeURIComponent('Hello Bakkiyam Pattu Center, I would like to know more about your services.')}`}

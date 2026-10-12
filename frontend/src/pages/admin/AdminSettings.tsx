@@ -8,11 +8,11 @@ import toast from 'react-hot-toast';
 const SETTING_FIELDS = [
   { section: 'Showroom Contact Persons & Phone Numbers', fields: [
     { key: 'contact_phone_1_name', label: 'Primary Contact Person Name (e.g. V. Kannan)' },
-    { key: 'contact_phone_1', label: 'Primary Contact Phone Number (e.g. 9159808720)' },
+    { key: 'contact_phone_1', label: 'Primary Contact Phone Number (e.g. +91 91598 08720)' },
     { key: 'contact_phone_2_name', label: 'Secondary Contact Person Name (e.g. V. Kannan)' },
-    { key: 'contact_phone_2', label: 'Secondary Contact Phone Number (e.g. 7871620812)' },
+    { key: 'contact_phone_2', label: 'Secondary Contact Phone Number (e.g. +91 78716 20812)' },
     { key: 'contact_phone_3_name', label: 'Partner / Third Contact Name (e.g. S.K. Veerappan)' },
-    { key: 'contact_phone_3', label: 'Partner / Third Contact Phone Number (e.g. 9865975616)' },
+    { key: 'contact_phone_3', label: 'Partner / Third Contact Phone Number (e.g. +91 98659 75616)' },
     { key: 'whatsapp_number', label: 'WhatsApp Number (with country code, e.g. 919159808720)' },
   ]},
   { section: 'Shop Address & Google Maps Location Link', fields: [

@@ -1,8 +1,9 @@
 import { useSettings } from '../context/SettingsContext';
+import { formatWhatsAppNumber } from '../utils/phone';
 
 export default function WhatsAppFloat() {
   const { settings } = useSettings();
-  const waNum = (settings.whatsapp_number || '919159808720').replace(/\D/g, '');
+  const waNum = formatWhatsAppNumber(settings.whatsapp_number);
 
   return (
     <a

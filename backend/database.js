@@ -102,11 +102,11 @@ function initializeDatabase() {
     ['hero_title', 'Timeless Elegance, Woven in Silk'],
     ['hero_subtitle', 'Discover beautiful traditional sarees and timeless designs at Bakkiyam Pattu Center, Siruvanthadu.'],
     ['about_text', 'Bakkiyam Pattu Center is a traditional saree showroom located in Siruvanthadu, Tamil Nadu. Our collections are focused on elegant sarees for weddings, festivals, celebrations and special occasions.'],
-    ['contact_phone_1', '9159808720'],
+    ['contact_phone_1', '+91 91598 08720'],
     ['contact_phone_1_name', 'V. Kannan'],
-    ['contact_phone_2', '7871620812'],
+    ['contact_phone_2', '+91 78716 20812'],
     ['contact_phone_2_name', 'V. Kannan'],
-    ['contact_phone_3', '9865975616'],
+    ['contact_phone_3', '+91 98659 75616'],
     ['contact_phone_3_name', 'S.K. Veerappan'],
     ['whatsapp_number', '919159808720'],
     ['instagram_url', 'https://www.instagram.com/bhakkiyam_pattu_center?stkn=aW40cHE0MHpmdG13'],
@@ -117,6 +117,15 @@ function initializeDatabase() {
   const insertSettingIfMissing = db.prepare('INSERT INTO site_settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO NOTHING');
   for (const [key, value] of settingsDefaults) {
     insertSettingIfMissing.run(key, value);
+  }
+
+  // Auto-migrate legacy unformatted contact numbers to standard international format
+  try {
+    db.prepare("UPDATE site_settings SET value = '+91 91598 08720' WHERE key = 'contact_phone_1' AND (value = '9159808720' OR value = '919159808720')").run();
+    db.prepare("UPDATE site_settings SET value = '+91 78716 20812' WHERE key = 'contact_phone_2' AND (value = '7871620812' OR value = '917871620812')").run();
+    db.prepare("UPDATE site_settings SET value = '+91 98659 75616' WHERE key = 'contact_phone_3' AND (value = '9865975616' OR value = '919865975616')").run();
+  } catch (e) {
+    // ignore if table structure is being migrated
   }
 
   // Seed categories

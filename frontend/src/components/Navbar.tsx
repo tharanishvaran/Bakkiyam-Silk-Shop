@@ -4,6 +4,7 @@ import { Menu, X, ChevronRight, Lock, Phone } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { smoothScrollTo } from '../utils/scroll';
 import { useSettings } from '../context/SettingsContext';
+import { formatTelLink, formatPhoneDisplay, formatWhatsAppNumber } from '../utils/phone';
 
 const navLinks = [
   { href: '/#home', label: 'Home' },
@@ -30,8 +31,9 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
 
-  const waNum = (settings.whatsapp_number || '919159808720').replace(/\D/g, '');
-  const phoneNum = (settings.contact_phone_1 || '919159808720').replace(/\D/g, '');
+  const waNum = formatWhatsAppNumber(settings.whatsapp_number);
+  const phoneTel = formatTelLink(settings.contact_phone_1);
+  const phoneDisplay = formatPhoneDisplay(settings.contact_phone_1);
   const instaUrl = settings.instagram_url || 'https://www.instagram.com/bhakkiyam_pattu_center?stkn=aW40cHE0MHpmdG13';
 
   useEffect(() => {
@@ -147,10 +149,10 @@ export default function Navbar() {
           <div className="nav-actions-wrap" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexShrink: 0 }}>
             {/* Direct Phone Call Button */}
             <a
-              href={`tel:+${phoneNum}`}
+              href={phoneTel}
               className="nav-icon-btn nav-call-btn"
-              aria-label={`Call Bakkiyam Pattu Center (+${phoneNum})`}
-              title={`Call Us (+${phoneNum})`}
+              aria-label={`Call Bakkiyam Pattu Center (${phoneDisplay})`}
+              title={`Call Us (${phoneDisplay})`}
             >
               <Phone size={17} />
             </a>
@@ -323,12 +325,12 @@ export default function Navbar() {
             <div style={{ marginTop: 'auto', paddingTop: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
               {/* Call Showroom */}
               <a
-                href={`tel:+${phoneNum}`}
+                href={phoneTel}
                 className="btn btn-outline"
                 style={{ width: '100%', justifyContent: 'center', fontSize: '0.82rem', borderColor: 'rgba(201,168,76,0.45)', color: 'var(--gold)' }}
               >
                 <Phone size={16} />
-                <span>Call Us (+{phoneNum})</span>
+                <span>Call Us ({phoneDisplay})</span>
               </a>
 
               {/* WhatsApp Enquiry */}

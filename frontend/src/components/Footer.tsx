@@ -12,14 +12,15 @@ const navLinks = [
 ];
 
 import { smoothScrollTo } from '../utils/scroll';
+import { formatTelLink, formatPhoneDisplay, formatWhatsAppNumber } from '../utils/phone';
 
 export default function Footer() {
   const { settings } = useSettings();
 
-  const waNum = (settings.whatsapp_number || '919159808720').replace(/\D/g, '');
-  const phone1 = settings.contact_phone_1 || '9159808720';
-  const phone2 = settings.contact_phone_2 || '7871620812';
-  const phone3 = settings.contact_phone_3 || '9865975616';
+  const waNum = formatWhatsAppNumber(settings.whatsapp_number);
+  const phone1 = settings.contact_phone_1 || '+91 91598 08720';
+  const phone2 = settings.contact_phone_2 || '+91 78716 20812';
+  const phone3 = settings.contact_phone_3 || '+91 98659 75616';
   const instaUrl = settings.instagram_url || 'https://www.instagram.com/bhakkiyam_pattu_center?stkn=aW40cHE0MHpmdG13';
   const mapsUrl = settings.maps_url || 'https://maps.app.goo.gl/b5TtEwr47nMyN39G8?g_st=aw';
   const address = settings.address || 'Meenavar Street, Mottuchulam, Siruvanthadu, Tamil Nadu, India';
@@ -160,12 +161,12 @@ export default function Footer() {
                     </p>
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-                    <a href={`tel:+91${phone1.replace(/\D/g, '')}`} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--dark-text)', fontSize: '0.9rem', fontWeight: 600 }}>
-                      <Phone size={13} color="var(--gold)" /> +91 {phone1}
+                    <a href={formatTelLink(phone1)} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--dark-text)', fontSize: '0.9rem', fontWeight: 600 }}>
+                      <Phone size={13} color="var(--gold)" /> {formatPhoneDisplay(phone1)}
                     </a>
                     {phone2 && (
-                      <a href={`tel:+91${phone2.replace(/\D/g, '')}`} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--dark-text-muted)', fontSize: '0.85rem' }}>
-                        <Phone size={12} /> +91 {phone2} {settings.contact_phone_2_name && settings.contact_phone_2_name !== settings.contact_phone_1_name ? `(${settings.contact_phone_2_name})` : ''}
+                      <a href={formatTelLink(phone2)} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--dark-text-muted)', fontSize: '0.85rem' }}>
+                        <Phone size={12} /> {formatPhoneDisplay(phone2)} {settings.contact_phone_2_name && settings.contact_phone_2_name !== settings.contact_phone_1_name ? `(${settings.contact_phone_2_name})` : ''}
                       </a>
                     )}
                   </div>
@@ -177,8 +178,8 @@ export default function Footer() {
                     <p style={{ fontSize: '0.8rem', color: 'var(--gold)', marginBottom: '0.2rem', fontWeight: 600 }}>
                       {settings.contact_phone_3_name || 'S.K. Veerappan'}
                     </p>
-                    <a href={`tel:+91${phone3.replace(/\D/g, '')}`} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--dark-text)', fontSize: '0.9rem', fontWeight: 500, transition: 'color 0.2s' }}>
-                      <Phone size={13} color="var(--gold)" /> +91 {phone3}
+                    <a href={formatTelLink(phone3)} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--dark-text)', fontSize: '0.9rem', fontWeight: 500, transition: 'color 0.2s' }}>
+                      <Phone size={13} color="var(--gold)" /> {formatPhoneDisplay(phone3)}
                     </a>
                   </div>
                 )}

@@ -4,6 +4,7 @@ import { useInView } from 'react-intersection-observer';
 import { Phone, MessageCircle, MapPin, Navigation, User, Send } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useSettings } from '../../context/SettingsContext';
+import { formatTelLink, formatPhoneDisplay, formatWhatsAppNumber } from '../../utils/phone';
 
 export default function ContactSection() {
   const { settings } = useSettings();
@@ -11,10 +12,10 @@ export default function ContactSection() {
   const [form, setForm] = useState({ name: '', phone: '', message: '' });
   const [sending, setSending] = useState(false);
 
-  const waNum = (settings.whatsapp_number || '919159808720').replace(/\D/g, '');
-  const phone1 = settings.contact_phone_1 || '9159808720';
-  const phone2 = settings.contact_phone_2 || '7871620812';
-  const phone3 = settings.contact_phone_3 || '9865975616';
+  const waNum = formatWhatsAppNumber(settings.whatsapp_number);
+  const phone1 = settings.contact_phone_1 || '+91 91598 08720';
+  const phone2 = settings.contact_phone_2 || '+91 78716 20812';
+  const phone3 = settings.contact_phone_3 || '+91 98659 75616';
   const instaUrl = settings.instagram_url || 'https://www.instagram.com/bhakkiyam_pattu_center?stkn=aW40cHE0MHpmdG13';
   const mapsUrl = settings.maps_url || 'https://maps.app.goo.gl/b5TtEwr47nMyN39G8?g_st=aw';
   const address = settings.address || 'Meenavar Street, Mottuchulam, Siruvanthadu, Tamil Nadu, India';
@@ -124,7 +125,7 @@ export default function ContactSection() {
                   </span>
                 </div>
                 <a
-                  href={`tel:+91${phone1.replace(/\D/g, '')}`}
+                  href={formatTelLink(phone1)}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -141,7 +142,7 @@ export default function ContactSection() {
                   onMouseLeave={e => (e.currentTarget.style.color = 'var(--dark-text)')}
                 >
                   <Phone size={14} color="var(--gold)" />
-                  +91 {phone1}
+                  {formatPhoneDisplay(phone1)}
                 </a>
 
                 {phone2 && (
@@ -155,7 +156,7 @@ export default function ContactSection() {
                       </div>
                     )}
                     <a
-                      href={`tel:+91${phone2.replace(/\D/g, '')}`}
+                      href={formatTelLink(phone2)}
                       style={{
                         display: 'flex',
                         alignItems: 'center',
@@ -172,7 +173,7 @@ export default function ContactSection() {
                       onMouseLeave={e => (e.currentTarget.style.color = 'var(--dark-text)')}
                     >
                       <Phone size={14} color="var(--gold)" />
-                      +91 {phone2}
+                      {formatPhoneDisplay(phone2)}
                     </a>
                   </div>
                 )}
@@ -187,7 +188,7 @@ export default function ContactSection() {
                     </span>
                   </div>
                   <a
-                    href={`tel:+91${phone3.replace(/\D/g, '')}`}
+                    href={formatTelLink(phone3)}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -204,16 +205,16 @@ export default function ContactSection() {
                     onMouseLeave={e => (e.currentTarget.style.color = 'var(--dark-text)')}
                   >
                     <Phone size={14} color="var(--gold)" />
-                    +91 {phone3}
+                    {formatPhoneDisplay(phone3)}
                   </a>
                 </div>
               )}
 
               {/* Action Buttons */}
               <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginTop: '1.5rem' }}>
-                <a href={`tel:+91${phone1.replace(/\D/g, '')}`} className="btn btn-primary" style={{ flex: 1, justifyContent: 'center', padding: '0.7rem 1rem', fontSize: '0.8rem' }} title={`Call ${settings.contact_phone_1_name || 'Showroom'}`}>
+                <a href={formatTelLink(phone1)} className="btn btn-primary" style={{ flex: 1, justifyContent: 'center', padding: '0.7rem 1rem', fontSize: '0.8rem' }} title={`Call ${settings.contact_phone_1_name || 'Showroom'}`}>
                   <Phone size={15} />
-                  <span>Call {settings.contact_phone_1_name || 'Us'} (+91 {phone1})</span>
+                  <span>Call {settings.contact_phone_1_name || 'Us'} ({formatPhoneDisplay(phone1)})</span>
                 </a>
                 <a
                   href={`https://wa.me/${waNum}?text=Hello%20Bakkiyam%20Pattu%20Center%2C%20I%20would%20like%20to%20know%20more%20about%20your%20saree%20collections.`}
@@ -359,17 +360,17 @@ export default function ContactSection() {
                   Or contact us directly at
                 </p>
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '1.25rem', flexWrap: 'wrap', marginTop: '0.75rem' }}>
-                  <a href={`tel:+91${phone1.replace(/\D/g, '')}`} style={{ color: 'var(--gold)', fontWeight: 600, fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }} title={settings.contact_phone_1_name || 'Primary Contact'}>
-                    <Phone size={14} /> +91 {phone1} ({settings.contact_phone_1_name || 'V. Kannan'})
+                  <a href={formatTelLink(phone1)} style={{ color: 'var(--gold)', fontWeight: 600, fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }} title={settings.contact_phone_1_name || 'Primary Contact'}>
+                    <Phone size={14} /> {formatPhoneDisplay(phone1)} ({settings.contact_phone_1_name || 'V. Kannan'})
                   </a>
                   {phone2 && (
-                    <a href={`tel:+91${phone2.replace(/\D/g, '')}`} style={{ color: 'var(--dark-text)', fontWeight: 500, fontSize: '0.88rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }} title={settings.contact_phone_2_name || 'Contact 2'}>
-                      <Phone size={14} /> +91 {phone2} ({settings.contact_phone_2_name || 'V. Kannan'})
+                    <a href={formatTelLink(phone2)} style={{ color: 'var(--dark-text)', fontWeight: 500, fontSize: '0.88rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }} title={settings.contact_phone_2_name || 'Contact 2'}>
+                      <Phone size={14} /> {formatPhoneDisplay(phone2)} ({settings.contact_phone_2_name || 'V. Kannan'})
                     </a>
                   )}
                   {phone3 && (
-                    <a href={`tel:+91${phone3.replace(/\D/g, '')}`} style={{ color: 'var(--dark-text-muted)', fontWeight: 500, fontSize: '0.88rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }} title={settings.contact_phone_3_name || 'Partner'}>
-                      <Phone size={14} /> +91 {phone3} ({settings.contact_phone_3_name || 'S.K. Veerappan'})
+                    <a href={formatTelLink(phone3)} style={{ color: 'var(--dark-text-muted)', fontWeight: 500, fontSize: '0.88rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }} title={settings.contact_phone_3_name || 'Partner'}>
+                      <Phone size={14} /> {formatPhoneDisplay(phone3)} ({settings.contact_phone_3_name || 'S.K. Veerappan'})
                     </a>
                   )}
                 </div>

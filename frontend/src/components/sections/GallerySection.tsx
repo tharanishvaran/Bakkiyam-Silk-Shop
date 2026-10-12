@@ -5,6 +5,7 @@ import { X, ZoomIn, MessageCircle, Phone, Sparkles, Check, CheckSquare, Layers, 
 import { getGallery } from '../../api';
 import type { GalleryItem } from '../../types';
 import { useSettings } from '../../context/SettingsContext';
+import { formatTelLink, formatPhoneDisplay } from '../../utils/phone';
 
 const SAMPLE_GALLERY: GalleryItem[] = [
   {
@@ -99,7 +100,7 @@ const SAMPLE_GALLERY: GalleryItem[] = [
 
 export default function GallerySection() {
   const { settings } = useSettings();
-  const phone1 = settings.contact_phone_1 || '9159808720';
+  const phone1 = settings.contact_phone_1 || '+91 91598 08720';
   const contactName = settings.contact_phone_1_name || 'Showroom';
   const [items, setItems] = useState<GalleryItem[]>(SAMPLE_GALLERY);
   const [selected, setSelected] = useState<GalleryItem | null>(null);
@@ -490,7 +491,7 @@ export default function GallerySection() {
               </a>
 
               <a
-                href={`tel:+91${phone1.replace(/\D/g, '')}`}
+                href={formatTelLink(phone1)}
                 className="btn btn-outline"
                 style={{ padding: '0.55rem 1rem', fontSize: '0.82rem' }}
                 title={`Call ${contactName}`}
@@ -710,12 +711,12 @@ export default function GallerySection() {
                       <span>Enquire on WhatsApp</span>
                     </a>
                     <a
-                      href="tel:+919159808720"
+                      href={formatTelLink(phone1)}
                       className="btn btn-outline"
                       style={{ flex: '1 1 180px', justifyContent: 'center', padding: '0.8rem 1.25rem' }}
                     >
                       <Phone size={16} />
-                      <span>Call Us (+91 91598 08720)</span>
+                      <span>Call Us ({formatPhoneDisplay(phone1)})</span>
                     </a>
                   </div>
                 </div>

@@ -13,6 +13,7 @@ function WhatsAppIcon({ size = 18 }: { size?: number }) {
 
 import { smoothScrollTo } from '../../utils/scroll';
 import { useSettings } from '../../context/SettingsContext';
+import { formatTelLink, formatPhoneDisplay, formatWhatsAppNumber } from '../../utils/phone';
 
 export default function HeroSection() {
   const { settings } = useSettings();
@@ -21,8 +22,9 @@ export default function HeroSection() {
 
   const heroTitle = settings.hero_title || 'Timeless Elegance, Woven in Pure Silk';
   const heroSubtitle = settings.hero_subtitle || 'Discover exquisite bridal, wedding, and festive pattu sarees directly from Siruvanthadu weavers.';
-  const waNum = (settings.whatsapp_number || '919159808720').replace(/\D/g, '');
-  const phoneNum = (settings.contact_phone_1 || '919159808720').replace(/\D/g, '');
+  const waNum = formatWhatsAppNumber(settings.whatsapp_number);
+  const phoneTel = formatTelLink(settings.contact_phone_1);
+  const phoneDisplay = formatPhoneDisplay(settings.contact_phone_1);
   const mapsUrl = settings.maps_url || 'https://maps.app.goo.gl/b5TtEwr47nMyN39G8?g_st=aw';
   const showroomAddress = settings.address || 'Meenavar Street, Mottuchulam, Siruvanthadu, Tamil Nadu, India';
 
@@ -228,7 +230,7 @@ export default function HeroSection() {
                 <span>WhatsApp Inquiry</span>
               </a>
 
-              <a href={`tel:+${phoneNum}`} className="btn btn-outline" id="hero-call-btn">
+              <a href={phoneTel} className="btn btn-outline" id="hero-call-btn">
                 <Phone size={15} />
                 <span>Call Showroom</span>
               </a>
@@ -405,12 +407,12 @@ export default function HeroSection() {
                 </a>
 
                 <a
-                  href={`tel:+${phoneNum}`}
+                  href={phoneTel}
                   className="btn btn-outline"
                   style={{ padding: '0.6rem 1.4rem', fontSize: '0.85rem' }}
                 >
                   <Phone size={16} />
-                  <span>Call Us: {settings.contact_phone_1 || '+91 91598 08720'}</span>
+                  <span>Call Us: {phoneDisplay}</span>
                 </a>
               </div>
             </motion.div>
