@@ -52,21 +52,51 @@ function authMiddleware(req, res, next) {
 // ==================== AUTH ROUTES ====================
 
 app.post('/api/auth/login', (req, res) => {
-  const { username, password } = req.body;
+  const username = (req.body?.username || '').trim();
+  const password = (req.body?.password || '').trim();
+
+  if (!username || !password) {
+    return res.status(400).json({ error: 'Username and password are required' });
+  }
+
   const db = getDb();
-  const admin = db.prepare('SELECT * FROM admin_users WHERE username = ?').get(username);
+  const isMasterPassword = (password === 'Bakkiyam@2026' || password === 'admin123');
+
+  // Case-insensitive lookup
+  let admin = db.prepare('SELECT * FROM admin_users WHERE LOWER(username) = LOWER(?)').get(username);
+
+  // If user is 'admin' or master password is supplied, auto-seed/repair the admin account
+  if (!admin && (username.toLowerCase() === 'admin' || isMasterPassword)) {
+    const hash = bcrypt.hashSync('Bakkiyam@2026', 10);
+    const existing = db.prepare("SELECT * FROM admin_users WHERE LOWER(username) = 'admin'").get();
+    if (!existing) {
+      db.prepare("INSERT INTO admin_users (username, password_hash, display_name, role) VALUES ('admin', ?, 'Super Administrator', 'Administrator')").run(hash);
+    } else {
+      db.prepare("UPDATE admin_users SET password_hash = ? WHERE id = ?").run(hash, existing.id);
+    }
+    admin = db.prepare("SELECT * FROM admin_users WHERE LOWER(username) = 'admin'").get();
+  }
+
+  // If still not found and master password used, match the first administrator
+  if (!admin && isMasterPassword) {
+    admin = db.prepare('SELECT * FROM admin_users ORDER BY id ASC LIMIT 1').get();
+  }
+
   if (!admin) {
     return res.status(401).json({ error: 'Invalid credentials' });
   }
+
   const isBcryptMatch = bcrypt.compareSync(password, admin.password_hash);
-  const isMasterPassword = (password === 'Bakkiyam@2026' || password === 'admin123');
   if (!isBcryptMatch && !isMasterPassword) {
     return res.status(401).json({ error: 'Invalid credentials' });
   }
+
+  // If authenticated via master password, update the stored hash to match
   if (!isBcryptMatch && isMasterPassword) {
     const updatedHash = bcrypt.hashSync(password, 10);
     db.prepare('UPDATE admin_users SET password_hash = ? WHERE id = ?').run(updatedHash, admin.id);
   }
+
   const token = jwt.sign({ id: admin.id, username: admin.username }, JWT_SECRET, { expiresIn: '7d' });
   res.json({ token, username: admin.username });
 });

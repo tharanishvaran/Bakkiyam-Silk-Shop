@@ -18,7 +18,9 @@ export default function AdminLogin() {
     setError('');
     setLoading(true);
     try {
-      const { token } = await login(username, password);
+      const cleanUser = username.trim();
+      const cleanPass = password.trim();
+      const { token } = await login(cleanUser, cleanPass);
       localStorage.setItem('admin_token', token);
       toast.success('Welcome back, Admin!');
       navigate('/admin');

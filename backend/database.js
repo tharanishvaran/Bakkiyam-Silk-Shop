@@ -89,9 +89,9 @@ function initializeDatabase() {
     db.prepare("ALTER TABLE admin_users ADD COLUMN display_name TEXT").run();
   } catch (e) {}
 
-  // Seed default admin only if no administrators exist in the database
-  const adminCount = db.prepare('SELECT COUNT(*) as c FROM admin_users').get().c;
-  if (adminCount === 0) {
+  // Ensure default admin user always exists in the database
+  const existingAdmin = db.prepare("SELECT * FROM admin_users WHERE LOWER(username) = 'admin'").get();
+  if (!existingAdmin) {
     const newAdminHash = bcrypt.hashSync('Bakkiyam@2026', 10);
     db.prepare("INSERT INTO admin_users (username, password_hash, display_name, role) VALUES ('admin', ?, 'Super Administrator', 'Administrator')").run(newAdminHash);
   }
